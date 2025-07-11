@@ -1,0 +1,160 @@
+import { useEffect, useState } from 'react';
+import { getAllStudents, getStudent, updateStudent, deleteStudent } from '../api/userAPI';
+import { toast } from 'react-toastify';
+
+export default function StudentsPage() {
+  const [students, setStudents] = useState([]);
+  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'student', class: '', rollNumber: '' });
+  const [editId, setEditId] = useState(null);
+
+  const fetchStudents = async () => {
+    setLoading(true);
+    try {
+      const res = await getAllStudents(search);
+      setStudents(res.data);
+    } catch {
+      toast.error('Failed to fetch students');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { fetchStudents(); }, [search]);
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    try {
+      await updateStudent(editId, form);
+      toast.success('Student updated');
+      setShowEdit(false);
+      setForm({ name: '', email: '', password: '', role: 'student', class: '', rollNumber: '' });
+      setEditId(null);
+      fetchStudents();
+    } catch {
+      toast.error('Failed to update student');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Delete this student?')) return;
+    try {
+      await deleteStudent(id);
+      toast.success('Student deleted');
+      fetchStudents();
+    } catch {
+      toast.error('Failed to delete student');
+    }
+  };
+
+  const openEdit = async (id) => {
+    try {
+      const res = await getStudent(id);
+      setEditId(id);
+      setForm({ ...res.data, password: '' });
+      setShowEdit(true);
+    } catch {
+      toast.error('Failed to load student');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-blue-100 p-6">
+      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8 mt-8">
+        <h1 className="text-2xl font-bold text-indigo-800 mb-6">Student Management</h1>
+        <div className="mb-4 flex flex-col md:flex-row gap-4 md:items-center">
+          <input
+            type="text"
+            placeholder="Search students by name, email, or roll no..."
+            className="w-full md:w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          <button
+            className="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition w-full md:w-auto"
+            onClick={() => setShowAdd(true)}
+          >
+            Add Student
+          </button>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border-b text-left">Name</th>
+                <th className="py-2 px-4 border-b text-left">Email</th>
+                <th className="py-2 px-4 border-b text-left">Class</th>
+                <th className="py-2 px-4 border-b text-left">Roll No</th>
+                <th className="py-2 px-4 border-b text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr><td colSpan={5} className="text-center py-4">Loading...</td></tr>
+              ) : students.length === 0 ? (
+                <tr><td colSpan={5} className="text-center py-4">No students found.</td></tr>
+              ) : students.map(student => (
+                <tr key={student._id}>
+                  <td className="py-2 px-4 border-b">{student.name}</td>
+                  <td className="py-2 px-4 border-b">{student.email}</td>
+                  <td className="py-2 px-4 border-b">{student.class}</td>
+                  <td className="py-2 px-4 border-b">{student.rollNumber}</td>
+                  <td className="py-2 px-4 border-b">
+                    <button className="text-indigo-600 hover:underline mr-2" onClick={() => openEdit(student._id)}>Edit</button>
+                    <button className="text-red-500 hover:underline" onClick={() => handleDelete(student._id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {/* Edit Student Modal */}
+      {showEdit && (
+        <Modal title="Edit Student" onClose={() => setShowEdit(false)}>
+          <form onSubmit={handleEdit} className="space-y-4">
+            <Input label="Name" value={form.name} onChange={v => setForm(f => ({ ...f, name: v }))} required />
+            <Input label="Email" type="email" value={form.email} onChange={v => setForm(f => ({ ...f, email: v }))} required />
+            <Input label="Class" value={form.class} onChange={v => setForm(f => ({ ...f, class: v }))} required />
+            <Input label="Roll No" value={form.rollNumber} onChange={v => setForm(f => ({ ...f, rollNumber: v }))} required />
+            <Input label="Password (leave blank to keep)" type="password" value={form.password} onChange={v => setForm(f => ({ ...f, password: v }))} />
+            <div className="flex justify-end gap-2">
+              <button type="button" className="px-4 py-2 rounded bg-gray-200" onClick={() => setShowEdit(false)}>Cancel</button>
+              <button type="submit" className="px-4 py-2 rounded bg-indigo-600 text-white font-semibold">Save</button>
+            </div>
+          </form>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+function Modal({ title, children, onClose }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative max-h-[90vh] overflow-y-auto">
+        <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700" onClick={onClose}>&times;</button>
+        <h2 className="text-xl font-bold mb-4">{title}</h2>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function Input({ label, value, onChange, type = 'text', required }) {
+  return (
+    <div>
+      <label className="block text-gray-700 font-medium mb-1">{label}</label>
+      <input
+        type={type}
+        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        required={required}
+      />
+    </div>
+  );
+} 
