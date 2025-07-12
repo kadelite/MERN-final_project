@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['admin', 'student'], required: true },
   class: { type: String, required: true },
   rollNumber: { type: Number, required: true },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // admin's _id
 }, { timestamps: true });
 
 export default mongoose.model('User', userSchema); 

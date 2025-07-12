@@ -11,7 +11,11 @@ export const register = async (req, res) => {
     const existing = await User.findOne({ email });
     if (existing) return res.status(400).json({ message: 'Email already exists' });
     const hashed = await bcrypt.hash(password, 10);
-    const user = new User({ name, email, password: hashed, role, class: className, rollNumber });
+    const userData = { name, email, password: hashed, role, class: className, rollNumber };
+    if (role === 'student') {
+      userData.createdBy = req.user.id;
+    }
+    const user = new User(userData);
     await user.save();
     res.status(201).json({ message: 'User registered' });
   } catch (err) {

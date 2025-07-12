@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAllStudents, getStudent, updateStudent, deleteStudent } from '../api/userAPI';
+import { register } from '../api/authAPI';
 import { toast } from 'react-toastify';
 
 export default function StudentsPage() {
@@ -24,6 +25,20 @@ export default function StudentsPage() {
   };
 
   useEffect(() => { fetchStudents(); }, [search]);
+
+  const handleAdd = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      await register(form, token);
+      toast.success('Student added');
+      setShowAdd(false);
+      setForm({ name: '', email: '', password: '', role: 'student', class: '', rollNumber: '' });
+      fetchStudents();
+    } catch {
+      toast.error('Failed to add student');
+    }
+  };
 
   const handleEdit = async (e) => {
     e.preventDefault();
@@ -75,7 +90,7 @@ export default function StudentsPage() {
           />
           <button
             className="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition w-full md:w-auto"
-            onClick={() => setShowAdd(true)}
+            onClick={() => { setShowAdd(true); setForm({ name: '', email: '', password: '', role: 'student', class: '', rollNumber: '' }); }}
           >
             Add Student
           </button>
@@ -112,6 +127,22 @@ export default function StudentsPage() {
           </table>
         </div>
       </div>
+      {/* Add Student Modal */}
+      {showAdd && (
+        <Modal title="Add Student" onClose={() => setShowAdd(false)}>
+          <form onSubmit={handleAdd} className="space-y-4">
+            <Input label="Name" value={form.name} onChange={v => setForm(f => ({ ...f, name: v }))} required />
+            <Input label="Email" type="email" value={form.email} onChange={v => setForm(f => ({ ...f, email: v }))} required />
+            <Input label="Class" value={form.class} onChange={v => setForm(f => ({ ...f, class: v }))} required />
+            <Input label="Roll No" value={form.rollNumber} onChange={v => setForm(f => ({ ...f, rollNumber: v }))} required />
+            <Input label="Password" type="password" value={form.password} onChange={v => setForm(f => ({ ...f, password: v }))} required />
+            <div className="flex justify-end gap-2">
+              <button type="button" className="px-4 py-2 rounded bg-gray-200" onClick={() => setShowAdd(false)}>Cancel</button>
+              <button type="submit" className="px-4 py-2 rounded bg-indigo-600 text-white font-semibold">Add</button>
+            </div>
+          </form>
+        </Modal>
+      )}
       {/* Edit Student Modal */}
       {showEdit && (
         <Modal title="Edit Student" onClose={() => setShowEdit(false)}>

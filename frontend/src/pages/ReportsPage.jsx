@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getAttendanceReport } from '../api/attendanceAPI';
+import { getAdminClasses } from '../api/userAPI';
 import { toast } from 'react-toastify';
 
 export default function ReportsPage() {
   const [className, setClassName] = useState('');
+  const [classOptions, setClassOptions] = useState([]);
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getAdminClasses().then(setClassOptions);
+  }, []);
 
   const loadReports = async () => {
     setLoading(true);
@@ -49,13 +55,16 @@ export default function ReportsPage() {
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8 mt-8">
         <h1 className="text-2xl font-bold text-indigo-800 mb-6">Attendance Reports</h1>
         <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <input
-            type="text"
-            placeholder="Class (e.g. 10A)"
+          <select
             className="w-full md:w-1/4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
             value={className}
             onChange={e => setClassName(e.target.value)}
-          />
+          >
+            <option value="">Select Class</option>
+            {classOptions.map(cls => (
+              <option key={cls} value={cls}>{cls}</option>
+            ))}
+          </select>
           <input
             type="date"
             className="w-full md:w-1/4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"

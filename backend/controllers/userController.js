@@ -3,14 +3,17 @@ import bcrypt from 'bcryptjs';
 
 export const getAllStudents = async (req, res) => {
   try {
-    const { search } = req.query;
-    let query = { role: 'student' };
+    const { search, class: className } = req.query;
+    let query = { role: 'student', createdBy: req.user.id };
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
         { email: { $regex: search, $options: 'i' } },
         { rollNumber: search }
       ];
+    }
+    if (className) {
+      query.class = className;
     }
     const students = await User.find(query).select('-password');
     res.json(students);
@@ -21,7 +24,7 @@ export const getAllStudents = async (req, res) => {
 
 export const getStudent = async (req, res) => {
   try {
-    const student = await User.findById(req.params.id).select('-password');
+    const student = await User.findOne({ _id: req.params.id, createdBy: req.user.id, role: 'student' }).select('-password');
     if (!student) return res.status(404).json({ message: 'Student not found' });
     res.json(student);
   } catch (err) {
@@ -36,7 +39,11 @@ export const updateStudent = async (req, res) => {
     if (password) {
       update.password = await bcrypt.hash(password, 10);
     }
-    const student = await User.findByIdAndUpdate(req.params.id, update, { new: true }).select('-password');
+    const student = await User.findOneAndUpdate(
+      { _id: req.params.id, createdBy: req.user.id, role: 'student' },
+      update,
+      { new: true }
+    ).select('-password');
     if (!student) return res.status(404).json({ message: 'Student not found' });
     res.json(student);
   } catch (err) {
@@ -46,7 +53,7 @@ export const updateStudent = async (req, res) => {
 
 export const deleteStudent = async (req, res) => {
   try {
-    const student = await User.findByIdAndDelete(req.params.id);
+    const student = await User.findOneAndDelete({ _id: req.params.id, createdBy: req.user.id, role: 'student' });
     if (!student) return res.status(404).json({ message: 'Student not found' });
     res.json({ message: 'Student deleted' });
   } catch (err) {
