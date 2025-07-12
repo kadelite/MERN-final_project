@@ -18,7 +18,7 @@ export default function AdminRegisterPage() {
     try {
       await adminRegister({ ...form, role: 'admin' });
       toast.success('Admin registered! You can now log in.');
-      navigate('/login');
+      navigate('/admin-login');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed');
     } finally {
@@ -27,26 +27,114 @@ export default function AdminRegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 to-indigo-200">
-      <div className="absolute top-6 left-6">
-        <Link to="/" className="text-indigo-700 font-bold text-xl hover:underline">🏠 HOME</Link>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-100 flex items-center justify-center px-4 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
       </div>
-      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Admin Registration</h2>
-        <input name="name" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Name" value={form.name} onChange={handleChange} required />
-        <input name="staffId" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Staff ID" value={form.staffId} onChange={handleChange} required />
-        <input name="email" type="email" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Email" value={form.email} onChange={handleChange} required />
-        <input name="password" type="password" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Password" value={form.password} onChange={handleChange} required />
-        <input name="adminCode" className="w-full mb-6 px-4 py-2 border rounded" placeholder="Admin Code (students will use this)" value={form.adminCode} onChange={handleChange} required />
-        <div className="mb-4 text-xs text-gray-500 text-left">This admin code will be used by your students to register under you.</div>
-        <button type="submit" className="w-full bg-purple-600 text-white py-2 rounded font-semibold hover:bg-purple-700 transition" disabled={loading}>
-          {loading ? 'Registering...' : 'Register'}
-        </button>
-        <div className="mt-4 text-center">
-          <span>Already have an account? </span>
-          <Link to="/admin-login" className="text-indigo-600 hover:underline">Login</Link>
+
+      {/* Register Form */}
+      <div className="relative z-10 w-full max-w-md animate-fade-in">
+        <div className="card-glass">
+          <div className="text-center mb-8">
+            <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              </svg>
+            </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-2">Admin Registration</h2>
+            <p className="text-gray-600 text-lg">Create your administrator account</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">Full Name</label>
+              <input 
+                name="name" 
+                className="input-field" 
+                placeholder="Enter your full name" 
+                value={form.name} 
+                onChange={handleChange} 
+                required 
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">Staff ID</label>
+              <input 
+                name="staffId" 
+                className="input-field" 
+                placeholder="Enter your staff ID" 
+                value={form.staffId} 
+                onChange={handleChange} 
+                required 
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
+              <input 
+                name="email" 
+                type="email" 
+                className="input-field" 
+                placeholder="Enter your email" 
+                value={form.email} 
+                onChange={handleChange} 
+                required 
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">Password</label>
+              <input 
+                name="password" 
+                type="password" 
+                className="input-field" 
+                placeholder="Create a password" 
+                value={form.password} 
+                onChange={handleChange} 
+                required 
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">Admin Code</label>
+              <input 
+                name="adminCode" 
+                className="input-field" 
+                placeholder="Create an admin code" 
+                value={form.adminCode} 
+                onChange={handleChange} 
+                required 
+              />
+              <p className="text-xs text-gray-500 mt-2">This code will be used by students to register under you.</p>
+            </div>
+
+            <button 
+              type="submit" 
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 px-6 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-lg" 
+              disabled={loading}
+            >
+              {loading ? (
+                <div className="flex items-center justify-center space-x-3">
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Creating Account...</span>
+                </div>
+              ) : (
+                'Create Account'
+              )}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center">
+            <span className="text-gray-600 text-lg">Already have an account? </span>
+            <Link to="/admin-login" className="text-indigo-600 hover:text-indigo-700 font-semibold transition-colors text-lg">
+              Sign In
+            </Link>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 } 

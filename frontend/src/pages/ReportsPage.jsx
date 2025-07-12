@@ -51,12 +51,12 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-blue-100 p-6">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8 mt-8">
-        <h1 className="text-2xl font-bold text-indigo-800 mb-6">Attendance Reports</h1>
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-blue-100 p-2 sm:p-4 md:p-6">
+      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8 mt-4 sm:mt-8">
+        <h1 className="text-xl sm:text-2xl font-bold text-indigo-800 mb-4 sm:mb-6">Attendance Reports</h1>
+        <div className="flex flex-col md:flex-row gap-2 sm:gap-4 mb-4 sm:mb-6">
           <select
-            className="w-full md:w-1/4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full md:w-1/4 px-3 sm:px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm sm:text-base"
             value={className}
             onChange={e => setClassName(e.target.value)}
           >
@@ -67,33 +67,33 @@ export default function ReportsPage() {
           </select>
           <input
             type="date"
-            className="w-full md:w-1/4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full md:w-1/4 px-3 sm:px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm sm:text-base"
             value={from}
             onChange={e => setFrom(e.target.value)}
           />
           <input
             type="date"
-            className="w-full md:w-1/4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full md:w-1/4 px-3 sm:px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm sm:text-base"
             value={to}
             onChange={e => setTo(e.target.value)}
           />
-          <button className="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition w-full md:w-auto" onClick={loadReports} disabled={loading}>
+          <button className="bg-indigo-600 text-white px-4 sm:px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition w-full md:w-auto text-sm sm:text-base" onClick={loadReports} disabled={loading}>
             {loading ? 'Loading...' : 'Load Reports'}
           </button>
-          <button className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition w-full md:w-auto" onClick={exportCSV}>
+          <button className="bg-green-600 text-white px-4 sm:px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition w-full md:w-auto text-sm sm:text-base" onClick={exportCSV}>
             Export CSV
           </button>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
+          <table className="min-w-full bg-white text-xs sm:text-sm">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b text-left">Name</th>
-                <th className="py-2 px-4 border-b text-left">Email</th>
-                <th className="py-2 px-4 border-b text-left">Class</th>
-                <th className="py-2 px-4 border-b text-left">Roll No</th>
-                <th className="py-2 px-4 border-b text-left">Date</th>
-                <th className="py-2 px-4 border-b text-left">Status</th>
+                <th className="py-2 px-2 sm:px-4 border-b text-left">Name</th>
+                <th className="py-2 px-2 sm:px-4 border-b text-left">Email</th>
+                <th className="py-2 px-2 sm:px-4 border-b text-left">Class</th>
+                <th className="py-2 px-2 sm:px-4 border-b text-left">Roll No</th>
+                <th className="py-2 px-2 sm:px-4 border-b text-left">Date</th>
+                <th className="py-2 px-2 sm:px-4 border-b text-left">Status</th>
               </tr>
             </thead>
             <tbody>

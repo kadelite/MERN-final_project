@@ -46,12 +46,12 @@ export default function AttendancePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 p-6">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8 mt-8">
-        <h1 className="text-2xl font-bold text-indigo-800 mb-6">Mark Attendance</h1>
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 p-2 sm:p-4 md:p-6">
+      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8 mt-4 sm:mt-8">
+        <h1 className="text-xl sm:text-2xl font-bold text-indigo-800 mb-4 sm:mb-6">Mark Attendance</h1>
+        <div className="flex flex-col md:flex-row gap-2 sm:gap-4 mb-4 sm:mb-6">
           <select
-            className="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full md:w-1/3 px-3 sm:px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm sm:text-base"
             value={className}
             onChange={e => setClassName(e.target.value)}
           >
@@ -62,21 +62,21 @@ export default function AttendancePage() {
           </select>
           <input
             type="date"
-            className="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full md:w-1/3 px-3 sm:px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm sm:text-base"
             value={date}
             onChange={e => setDate(e.target.value)}
           />
-          <button className="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition w-full md:w-auto" onClick={loadStudents} disabled={loading}>
+          <button className="bg-indigo-600 text-white px-4 sm:px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition w-full md:w-auto text-sm sm:text-base" onClick={loadStudents} disabled={loading}>
             {loading ? 'Loading...' : 'Load Students'}
           </button>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
+          <table className="min-w-full bg-white text-xs sm:text-sm">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b text-left">Name</th>
-                <th className="py-2 px-4 border-b text-left">Roll No</th>
-                <th className="py-2 px-4 border-b text-left">Status</th>
+                <th className="py-2 px-2 sm:px-4 border-b text-left">Name</th>
+                <th className="py-2 px-2 sm:px-4 border-b text-left">Roll No</th>
+                <th className="py-2 px-2 sm:px-4 border-b text-left">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -100,8 +100,8 @@ export default function AttendancePage() {
           </table>
         </div>
         {students.length > 0 && (
-          <div className="flex justify-end mt-6">
-            <button className="bg-green-600 text-white px-8 py-2 rounded-lg font-semibold hover:bg-green-700 transition" onClick={saveAttendance}>
+          <div className="flex justify-end mt-4 sm:mt-6">
+            <button className="bg-green-600 text-white px-6 sm:px-8 py-2 rounded-lg font-semibold hover:bg-green-700 transition text-sm sm:text-base" onClick={saveAttendance}>
               Save Attendance
             </button>
           </div>
