@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { register } from '../api/authAPI';
+import { studentRegister } from '../api/authAPI';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-export default function RegisterPage() {
-  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'student', class: '', rollNumber: '' });
+export default function StudentRegisterPage() {
+  const [form, setForm] = useState({ name: '', email: '', password: '', class: '', rollNumber: '', adminCode: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -16,10 +16,9 @@ export default function RegisterPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      await register(form, token);
-      toast.success('User registered');
-      navigate('/admin/students');
+      await studentRegister(form);
+      toast.success('Student registered! You can now log in.');
+      navigate('/login');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed');
     } finally {
@@ -33,12 +32,13 @@ export default function RegisterPage() {
         <Link to="/" className="text-indigo-700 font-bold text-xl hover:underline">🏠 HOME</Link>
       </div>
       <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Register Student</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Student Registration</h2>
         <input name="name" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Name" value={form.name} onChange={handleChange} required />
         <input name="email" type="email" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Email" value={form.email} onChange={handleChange} required />
         <input name="password" type="password" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Password" value={form.password} onChange={handleChange} required />
         <input name="class" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Class (e.g. 10A)" value={form.class} onChange={handleChange} required />
-        <input name="rollNumber" type="number" className="w-full mb-6 px-4 py-2 border rounded" placeholder="Roll Number" value={form.rollNumber} onChange={handleChange} required />
+        <input name="rollNumber" type="number" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Roll Number" value={form.rollNumber} onChange={handleChange} required />
+        <input name="adminCode" className="w-full mb-6 px-4 py-2 border rounded" placeholder="Admin Code (ask your admin)" value={form.adminCode} onChange={handleChange} required />
         <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded font-semibold hover:bg-indigo-700 transition" disabled={loading}>
           {loading ? 'Registering...' : 'Register'}
         </button>

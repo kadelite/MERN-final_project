@@ -4,6 +4,9 @@ export default function AdminDashboard() {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-blue-100 flex flex-col items-center p-6">
+      <div className="absolute top-6 left-6">
+        <Link to="/" className="text-indigo-700 font-bold text-xl hover:underline">🏠 HOME</Link>
+      </div>
       <h1 className="text-3xl font-bold text-indigo-800 mt-8 mb-2">Admin Dashboard</h1>
       <div className="mb-8 text-center">
         <div className="text-lg text-gray-700 font-semibold">Welcome, {user.name}!</div>

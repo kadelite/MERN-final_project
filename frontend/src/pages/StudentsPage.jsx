@@ -15,10 +15,11 @@ export default function StudentsPage() {
   const fetchStudents = async () => {
     setLoading(true);
     try {
-      const res = await getAllStudents(search);
+      const res = await getAllStudents(search); // Only pass search
       setStudents(res.data);
-    } catch {
+    } catch (err) {
       toast.error('Failed to fetch students');
+      console.error('Fetch students error:', err.response?.data || err);
     } finally {
       setLoading(false);
     }
