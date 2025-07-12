@@ -44,7 +44,7 @@ export default function AdminRegisterPage() {
         </button>
         <div className="mt-4 text-center">
           <span>Already have an account? </span>
-          <Link to="/login" className="text-indigo-600 hover:underline">Login</Link>
+          <Link to="/admin-login" className="text-indigo-600 hover:underline">Login</Link>
         </div>
       </form>
     </div>

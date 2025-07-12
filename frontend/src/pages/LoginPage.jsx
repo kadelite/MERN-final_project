@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import { login } from '../api/authAPI';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-export default function LoginPage() {
+export default function LoginPage({ mode }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // If mode is not passed as prop, try to infer from location
+  const effectiveMode = mode || (location.pathname.includes('admin') ? 'admin' : location.pathname.includes('student') ? 'student' : undefined);
+  const title = effectiveMode === 'admin' ? 'Admin Login' : effectiveMode === 'student' ? 'Student Login' : 'Login';
+  const registerLink = effectiveMode === 'admin' ? '/admin-register' : effectiveMode === 'student' ? '/student-register' : '/register';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +37,7 @@ export default function LoginPage() {
         <Link to="/" className="text-indigo-700 font-bold text-xl hover:underline">🏠 HOME</Link>
       </div>
       <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">{title}</h2>
         <input type="email" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
         <input type="password" className="w-full mb-6 px-4 py-2 border rounded" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
         <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded font-semibold hover:bg-indigo-700 transition" disabled={loading}>
@@ -39,7 +45,7 @@ export default function LoginPage() {
         </button>
         <div className="mt-4 text-center">
           <span>Don't have an account? </span>
-          <Link to="/register" className="text-indigo-600 hover:underline">Register</Link>
+          <Link to={registerLink} className="text-indigo-600 hover:underline">Register</Link>
         </div>
       </form>
     </div>

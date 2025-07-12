@@ -30,6 +30,8 @@ export default function App() {
         <Route path="/admin/reports" element={<ProtectedRoute role="admin"><ReportsPage /></ProtectedRoute>} />
         <Route path="/admin-register" element={<AdminRegisterPage />} />
         <Route path="/student" element={<ProtectedRoute role="student"><StudentDashboard /></ProtectedRoute>} />
+        <Route path="/admin-login" element={<LoginPage mode="admin" />} />
+        <Route path="/student-login" element={<LoginPage mode="student" />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
