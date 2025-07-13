@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getStudentAttendance } from '../api/attendanceAPI';
+import { useAuth } from '../components/AuthContext';
 
 export default function StudentDashboard() {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const { user } = useAuth();
   const [summary, setSummary] = useState({ percentage: 0, present: 0, absent: 0, total: 0 });
 
   useEffect(() => {
@@ -17,8 +18,8 @@ export default function StudentDashboard() {
         setSummary({ percentage, present, absent, total });
       } catch {}
     }
-    if (user.id) fetchAttendance();
-  }, [user.id]);
+    if (user?.id) fetchAttendance();
+  }, [user?.id]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-2 sm:p-4 md:p-6">

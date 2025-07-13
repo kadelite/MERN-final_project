@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { adminRegister } from '../api/authAPI';
+import { adminRegister, login as loginAPI } from '../api/authAPI';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useAuth } from '../components/AuthContext';
 
 export default function AdminRegisterPage() {
   const [form, setForm] = useState({ name: '', staffId: '', email: '', password: '', adminCode: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login: setAuth } = useAuth();
 
   const handleChange = (e) => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -17,8 +19,11 @@ export default function AdminRegisterPage() {
     setLoading(true);
     try {
       await adminRegister({ ...form, role: 'admin' });
-      toast.success('Admin registered! You can now log in.');
-      navigate('/admin-login');
+      // Auto-login after registration
+      const res = await loginAPI({ email: form.email, password: form.password });
+      setAuth(res.data.user, res.data.token);
+      toast.success('Registration and login successful!');
+      navigate('/admin');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed');
     } finally {

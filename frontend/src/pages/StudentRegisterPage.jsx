@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { studentRegister } from '../api/authAPI';
+import { studentRegister, login as loginAPI } from '../api/authAPI';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useAuth } from '../components/AuthContext';
 
 export default function StudentRegisterPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '', class: '', rollNumber: '', adminCode: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login: setAuth } = useAuth();
 
   const handleChange = (e) => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -17,8 +19,11 @@ export default function StudentRegisterPage() {
     setLoading(true);
     try {
       await studentRegister(form);
-      toast.success('Student registered! You can now log in.');
-      navigate('/login');
+      // Auto-login after registration
+      const res = await loginAPI({ email: form.email, password: form.password });
+      setAuth(res.data.user, res.data.token);
+      toast.success('Registration and login successful!');
+      navigate('/student');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed');
     } finally {

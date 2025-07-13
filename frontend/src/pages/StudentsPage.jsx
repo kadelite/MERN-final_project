@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAllStudents, getStudent, updateStudent, deleteStudent } from '../api/userAPI';
 import { register } from '../api/authAPI';
 import { toast } from 'react-toastify';
+import { useAuth } from '../components/AuthContext';
 
 export default function StudentsPage() {
   const [students, setStudents] = useState([]);
@@ -11,6 +12,7 @@ export default function StudentsPage() {
   const [showEdit, setShowEdit] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'student', class: '', rollNumber: '' });
   const [editId, setEditId] = useState(null);
+  const { token } = useAuth();
 
   const fetchStudents = async () => {
     setLoading(true);
@@ -30,7 +32,6 @@ export default function StudentsPage() {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
       await register(form, token);
       toast.success('Student added');
       setShowAdd(false);

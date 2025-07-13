@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { getAllStudents } from '../api/userAPI';
 import { getAttendanceReport } from '../api/attendanceAPI';
 import dayjs from 'dayjs';
+import { useAuth } from '../components/AuthContext';
 
 export default function AdminDashboard() {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const { user } = useAuth();
   const [stats, setStats] = useState({ students: 0, classes: 0, attendance: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
