@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const baseUrl = import.meta.env.VITE_API_URL;
+
 const API = axios.create({ baseURL: '/api/attendance' });
 API.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
