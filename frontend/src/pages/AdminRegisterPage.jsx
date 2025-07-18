@@ -55,9 +55,11 @@ export default function AdminRegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-3">Full Name</label>
+              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-3">Full Name</label>
               <input 
-                name="name" 
+                id="name"
+                name="name"
+                autoComplete="name"
                 className="input-field" 
                 placeholder="Enter your full name" 
                 value={form.name} 
@@ -67,9 +69,11 @@ export default function AdminRegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-3">Staff ID</label>
+              <label htmlFor="staffId" className="block text-sm font-semibold text-gray-700 mb-3">Staff ID</label>
               <input 
-                name="staffId" 
+                id="staffId"
+                name="staffId"
+                autoComplete="off"
                 className="input-field" 
                 placeholder="Enter your staff ID" 
                 value={form.staffId} 
@@ -79,10 +83,12 @@ export default function AdminRegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
               <input 
-                name="email" 
+                id="email"
+                name="email"
                 type="email" 
+                autoComplete="email"
                 className="input-field" 
                 placeholder="Enter your email" 
                 value={form.email} 
@@ -92,10 +98,12 @@ export default function AdminRegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-3">Password</label>
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-3">Password</label>
               <input 
-                name="password" 
+                id="password"
+                name="password"
                 type="password" 
+                autoComplete="new-password"
                 className="input-field" 
                 placeholder="Create a password" 
                 value={form.password} 
@@ -105,9 +113,11 @@ export default function AdminRegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-3">Admin Code</label>
+              <label htmlFor="adminCode" className="block text-sm font-semibold text-gray-700 mb-3">Admin Code</label>
               <input 
-                name="adminCode" 
+                id="adminCode"
+                name="adminCode"
+                autoComplete="off"
                 className="input-field" 
                 placeholder="Create an admin code" 
                 value={form.adminCode} 

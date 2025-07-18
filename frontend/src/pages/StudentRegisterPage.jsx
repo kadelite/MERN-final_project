@@ -36,12 +36,18 @@ export default function StudentRegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-200">
       <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Student Registration</h2>
-        <input name="name" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Name" value={form.name} onChange={handleChange} required />
-        <input name="email" type="email" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Email" value={form.email} onChange={handleChange} required />
-        <input name="password" type="password" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Password" value={form.password} onChange={handleChange} required />
-        <input name="class" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Class (e.g. 10A)" value={form.class} onChange={handleChange} required />
-        <input name="rollNumber" type="number" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Roll Number" value={form.rollNumber} onChange={handleChange} required />
-        <input name="adminCode" className="w-full mb-6 px-4 py-2 border rounded" placeholder="Admin Code (ask your admin)" value={form.adminCode} onChange={handleChange} required />
+        <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-1">Name</label>
+        <input id="name" name="name" autoComplete="name" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Name" value={form.name} onChange={handleChange} required />
+        <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
+        <input id="email" name="email" type="email" autoComplete="email" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Email" value={form.email} onChange={handleChange} required />
+        <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+        <input id="password" name="password" type="password" autoComplete="new-password" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Password" value={form.password} onChange={handleChange} required />
+        <label htmlFor="class" className="block text-sm font-semibold text-gray-700 mb-1">Class</label>
+        <input id="class" name="class" autoComplete="off" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Class (e.g. 10A)" value={form.class} onChange={handleChange} required />
+        <label htmlFor="rollNumber" className="block text-sm font-semibold text-gray-700 mb-1">Roll Number</label>
+        <input id="rollNumber" name="rollNumber" type="number" autoComplete="off" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Roll Number" value={form.rollNumber} onChange={handleChange} required />
+        <label htmlFor="adminCode" className="block text-sm font-semibold text-gray-700 mb-1">Admin Code</label>
+        <input id="adminCode" name="adminCode" autoComplete="off" className="w-full mb-6 px-4 py-2 border rounded" placeholder="Admin Code (ask your admin)" value={form.adminCode} onChange={handleChange} required />
         <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded font-semibold hover:bg-indigo-700 transition" disabled={loading}>
           {loading ? 'Registering...' : 'Register'}
         </button>
