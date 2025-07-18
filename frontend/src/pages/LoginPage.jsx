@@ -26,6 +26,7 @@ export default function LoginPage({ mode }) {
       setAuth(res.data.user, res.data.token);
       toast.success('Login successful');
       navigate(res.data.user.role === 'admin' ? '/admin' : '/student');
+      return; // Prevents error toast after successful login
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed');
     } finally {
