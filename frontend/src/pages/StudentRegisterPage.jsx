@@ -25,6 +25,7 @@ export default function StudentRegisterPage() {
       toast.success('Registration and login successful!');
       navigate('/student');
     } catch (err) {
+      console.log('Registration/Login Error:', err, err.response);
       toast.error(err.response?.data?.message || 'Registration failed');
     } finally {
       setLoading(false);

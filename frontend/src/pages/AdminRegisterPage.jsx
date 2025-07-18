@@ -25,6 +25,7 @@ export default function AdminRegisterPage() {
       toast.success('Registration and login successful!');
       navigate('/admin');
     } catch (err) {
+      console.log('Registration/Login Error:', err, err.response);
       toast.error(err.response?.data?.message || 'Registration failed');
     } finally {
       setLoading(false);
