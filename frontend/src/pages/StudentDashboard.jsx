@@ -10,7 +10,14 @@ export default function StudentDashboard() {
     async function fetchAttendance() {
       try {
         const res = await getStudentAttendance(user.id);
-        const records = res.data.flatMap(r => r.records.filter(rec => rec.studentId === user.id));
+        const records = res.data.flatMap(r =>
+          r.records.filter(rec => {
+            if (!rec.studentId) return false;
+            if (typeof rec.studentId === 'string') return rec.studentId === user.id;
+            if (typeof rec.studentId === 'object' && rec.studentId._id) return rec.studentId._id === user.id;
+            return false;
+          })
+        );
         const total = records.length;
         const present = records.filter(r => r.status === 'present').length;
         const absent = records.filter(r => r.status === 'absent').length;
