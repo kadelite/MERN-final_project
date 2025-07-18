@@ -42,6 +42,9 @@ export default function StudentDashboard() {
           <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-2 sm:mb-4">
             Welcome, <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">{user.name}</span>!
           </h1>
+          {user.rollNumber && (
+            <div className="text-lg sm:text-xl text-gray-700 mb-2">Roll No: <span className="font-bold">{user.rollNumber}</span></div>
+          )}
           <p className="text-base sm:text-lg text-gray-600">Track your attendance and performance</p>
         </div>
 

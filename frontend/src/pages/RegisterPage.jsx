@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../components/AuthContext';
 
 export default function RegisterPage() {
-  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'student', class: '', rollNumber: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'student', class: '', rollNumber: '', gender: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { token, login: setAuth } = useAuth();
@@ -39,7 +39,12 @@ export default function RegisterPage() {
         <input name="email" type="email" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Email" value={form.email} onChange={handleChange} required />
         <input name="password" type="password" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Password" value={form.password} onChange={handleChange} required />
         <input name="class" className="w-full mb-4 px-4 py-2 border rounded" placeholder="Class (e.g. 10A)" value={form.class} onChange={handleChange} required />
-        <input name="rollNumber" type="number" className="w-full mb-6 px-4 py-2 border rounded" placeholder="Roll Number" value={form.rollNumber} onChange={handleChange} required />
+        <select name="gender" className="w-full mb-6 px-4 py-2 border rounded" value={form.gender} onChange={handleChange} required>
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
         <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded font-semibold hover:bg-indigo-700 transition" disabled={loading}>
           {loading ? 'Registering...' : 'Register'}
         </button>

@@ -25,7 +25,6 @@ export default function AdminRegisterPage() {
       toast.success('Registration and login successful!');
       navigate('/admin');
     } catch (err) {
-      console.log('Registration/Login Error:', err, err.response);
       toast.error(err.response?.data?.message || 'Registration failed');
     } finally {
       setLoading(false);
@@ -55,11 +54,9 @@ export default function AdminRegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-3">Full Name</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">Full Name</label>
               <input 
-                id="name"
-                name="name"
-                autoComplete="name"
+                name="name" 
                 className="input-field" 
                 placeholder="Enter your full name" 
                 value={form.name} 
@@ -69,11 +66,9 @@ export default function AdminRegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="staffId" className="block text-sm font-semibold text-gray-700 mb-3">Staff ID</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">Staff ID</label>
               <input 
-                id="staffId"
-                name="staffId"
-                autoComplete="off"
+                name="staffId" 
                 className="input-field" 
                 placeholder="Enter your staff ID" 
                 value={form.staffId} 
@@ -83,12 +78,10 @@ export default function AdminRegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
               <input 
-                id="email"
-                name="email"
+                name="email" 
                 type="email" 
-                autoComplete="email"
                 className="input-field" 
                 placeholder="Enter your email" 
                 value={form.email} 
@@ -98,12 +91,10 @@ export default function AdminRegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-3">Password</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">Password</label>
               <input 
-                id="password"
-                name="password"
+                name="password" 
                 type="password" 
-                autoComplete="new-password"
                 className="input-field" 
                 placeholder="Create a password" 
                 value={form.password} 
@@ -113,11 +104,9 @@ export default function AdminRegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="adminCode" className="block text-sm font-semibold text-gray-700 mb-3">Admin Code</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-3">Admin Code</label>
               <input 
-                id="adminCode"
-                name="adminCode"
-                autoComplete="off"
+                name="adminCode" 
                 className="input-field" 
                 placeholder="Create an admin code" 
                 value={form.adminCode} 

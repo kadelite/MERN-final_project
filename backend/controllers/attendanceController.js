@@ -24,7 +24,8 @@ export const markAttendance = async (req, res) => {
     await att.save();
     res.json({ message: 'Attendance marked' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('AttendanceController error:', err);
+    res.status(500).json({ message: err.message, stack: err.stack });
   }
 };
 
@@ -42,7 +43,8 @@ export const updateAttendance = async (req, res) => {
     await att.save();
     res.json({ message: 'Attendance updated' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('AttendanceController error:', err);
+    res.status(500).json({ message: err.message, stack: err.stack });
   }
 };
 
@@ -73,7 +75,8 @@ export const getAttendanceReport = async (req, res) => {
     }
     res.json(records);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('AttendanceController error:', err);
+    res.status(500).json({ message: err.message, stack: err.stack });
   }
 };
 
@@ -89,6 +92,7 @@ export const getStudentAttendance = async (req, res) => {
     const records = await Attendance.find({ 'records.studentId': id }).populate('records.studentId', 'name email class rollNumber');
     res.json(records);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('AttendanceController error:', err);
+    res.status(500).json({ message: err.message, stack: err.stack });
   }
 }; 

@@ -59,6 +59,9 @@ export default function AdminDashboard() {
           <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-2 sm:mb-4">
             Welcome back, <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">{user.name}</span>!
           </h1>
+          {user.adminCode && (
+            <div className="text-lg sm:text-xl text-gray-700 mb-2">Admin Code: <span className="font-bold">{user.adminCode}</span></div>
+          )}
           <p className="text-base sm:text-lg text-gray-600">Manage your attendance system efficiently</p>
         </div>
 

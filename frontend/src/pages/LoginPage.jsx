@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { login } from '../api/authAPI';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -10,7 +10,7 @@ export default function LoginPage({ mode }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { login: setAuth, user } = useAuth();
+  const { login: setAuth } = useAuth();
 
   // If mode is not passed as prop, try to infer from location
   const effectiveMode = mode || (location.pathname.includes('admin') ? 'admin' : location.pathname.includes('student') ? 'student' : undefined);
@@ -25,20 +25,13 @@ export default function LoginPage({ mode }) {
       const res = await login({ email, password });
       setAuth(res.data.user, res.data.token);
       toast.success('Login successful');
-      // Navigation moved to useEffect below
-      return;
+      navigate(res.data.user.role === 'admin' ? '/admin' : '/student');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed');
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      navigate(user.role === 'admin' ? '/admin' : '/student');
-    }
-  }, [user, navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center px-4 relative overflow-hidden">

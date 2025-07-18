@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['admin', 'student'], required: true },
   class: { type: String, required: function() { return this.role === 'student'; } },
   rollNumber: { type: Number, required: function() { return this.role === 'student'; } },
+  gender: { type: String, enum: ['male', 'female', 'other'], required: function() { return this.role === 'student'; } },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   adminCode: { type: String, required: function() { return this.role === 'admin'; }, unique: false },
   staffId: { type: String, required: function() { return this.role === 'admin'; }, unique: false },
